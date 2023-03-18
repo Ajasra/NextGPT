@@ -1,0 +1,39 @@
+.answer_block {
+    width: 100%;
+    margin-bottom: 2em;
+    position: relative;
+}
+
+.question {
+    background-color: darkorchid;
+    padding: .5em;
+    color: white;
+    border-radius: 5px 5px 0 0;
+}
+
+.answer {
+    padding: .5em;
+    border-radius: 0 0 5px 5px;
+    background-color: #202225;
+}
+
+
+.copy_icon {
+    position: absolute;
+    background-color: #000000;
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: -20px;
+    right: 00px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+}
+
+.copy_icon:hover {
+    background-color: chocolate;
+}
