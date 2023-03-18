@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 const API_ENDPOINT = "https://api.openai.com/v1/chat/completions";
 
 export default async function handler(req, res) {
