@@ -34,18 +34,18 @@ function formatResponse(response) {
 export default function Home() {
   const [processing, setProcessing] = useState(false);
   const [storedValues, setStoredValues] = useState([
-    {
-      question: "Hello!",
-      answer: formatResponse(text_resp),
-    },
-    {
-      question: "Hello!",
-      answer: formatResponse(text_resp),
-    },
-    {
-      question: "Hello!",
-      answer: formatResponse(text_resp),
-    },
+    // {
+    //   question: "Hello!",
+    //   answer: formatResponse(text_resp),
+    // },
+    // {
+    //   question: "Hello!",
+    //   answer: formatResponse(text_resp),
+    // },
+    // {
+    //   question: "Hello!",
+    //   answer: formatResponse(text_resp),
+    // },
   ]);
 
   async function generateResponse(prompt, setPrompt) {
