@@ -19,7 +19,6 @@ export default function AnswerSection({ storedValues }) {
             <Text className={styles.question}>{value.question}</Text>
             <Text className={styles.answer}>
               <ReactMarkdown
-                  children={value.answer ?? ''}
                   components={{
                     code({className, children}) {
                       return(
@@ -30,7 +29,7 @@ export default function AnswerSection({ storedValues }) {
                     }
                   }}
               
-              />
+              >{value.answer}</ReactMarkdown>
             </Text>
             <div className={styles.copy_icon} onClick={() => copyText(value.answer)}>
               <ClipboardCopyIcon />
