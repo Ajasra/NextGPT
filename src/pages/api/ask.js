@@ -48,9 +48,8 @@ export default async function handler(req, res) {
         });
         msgs.push({
             "role": "user",
-            "content": `Summarize the following text in a few sentences: "${message}"`,
+            "content": `Summarize the following text in a one paragraph: "${message}"`,
         });
-        
     // }else if(type == 'Excited') {
     //   msgs.push({
     //     "role": "system",
@@ -60,15 +59,16 @@ export default async function handler(req, res) {
     //     "role": "user",
     //     "content": `${message}`,
     //   });
-    // }else if(type == 'Lazy') {
-    //     msgs.push({
-    //         "role": "system",
-    //         "content": "You are a very lazy and creative assistant that prefer simple solution.",
-    //     });
-    //     msgs.push({
-    //         "role": "user",
-    //         "content": `${message}`,
-    //     });
+    }else if(type == 'Lazy') {
+        msgs.push({
+            "role": "system",
+            "content": "You are a very lazy and creative assistant.",
+        });
+        msgs.push({
+            "role": "user",
+            "content": `${message}`,
+        });
+
     } else {
       // msgs.push({ role: "system", content: "You are helpful and creative assistant." });
       if (chat) {
