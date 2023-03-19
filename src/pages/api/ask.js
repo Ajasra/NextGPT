@@ -3,7 +3,10 @@ const axios = require("axios");
 const OPENAI_API_KEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 const API_ENDPOINT = "https://api.openai.com/v1/chat/completions";
 
-export default async function handler(req, res) {
+export default async function handler(req, res, number = msgs.push({
+  "role": "user",
+  "content": `${message}`,
+})) {
   if (req.method === "POST") {
     let message = req.body.prompt;
     let chat = req.body.chat;
@@ -68,7 +71,12 @@ export default async function handler(req, res) {
             "role": "user",
             "content": `${message}`,
         });
-
+    else if(type == 'Three hat') {
+      msgs.push({
+        "role": "system",
+        "content": "You will give three perspective on the next message. Positive, negative and neutral analysis.",
+      });
+      
     } else {
       // msgs.push({ role: "system", content: "You are helpful and creative assistant." });
       if (chat) {
