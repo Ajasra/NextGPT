@@ -60,15 +60,14 @@ export default async function handler(req, res) {
     //         "content": `${message}`,
     //     });
     } else {
-      msgs.push({ "role": "system", "content": "You are helpful and creative assistant." });
+      msgs.push({ role: "system", content: "You are helpful and creative assistant." });
       if (chat) {
         values.forEach((value) => {
           msgs.push({ "role": "user", "content": value.question });
           msgs.push({ "role": "assistant", "content": value.answer });
         });
       }
-
-      msgs.push({ "role": "user", "content": message });
+      msgs.push({ role: "user", content: message });
     }
 
     console.log(msgs)
