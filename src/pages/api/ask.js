@@ -41,8 +41,26 @@ export default async function handler(req, res) {
         role: "user",
         content: `Summarize the following text: "${message}"`,
       });
+    }else if(type == 'Excited') {
+      msgs.push({
+        role: "system",
+        content: "You are a very excited and helpful assistant.",
+      });
+      msgs.push({
+        role: "user",
+        content: `${message}`,
+      });
+    }else if(type == 'Lazy') {
+        msgs.push({
+            role: "system",
+            content: "You are a very lazy and creative assistant that prefer simple solution.",
+        });
+        msgs.push({
+            role: "user",
+            content: `${message}`,
+        });
     } else {
-      msgs.push({ role: "system", content: "You are a helpful assistant." });
+      msgs.push({ role: "system", content: "You are helpful, creative, clever, and very friendly assistant." });
       if (chat) {
         values.forEach((value) => {
           msgs.push({ role: "user", content: value.question });
