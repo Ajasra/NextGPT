@@ -8,7 +8,7 @@ export default function PromptForm(props) {
   const [prompt, setPrompt] = useState("");
   const [error, setError] = useState("");
   const [checked, setChecked] = useState(false);
-  const [type, setType] = useState('');
+  const [type, setType] = useState('Assistant');
 
   function sendRequest() {
     if (prompt == "") {
@@ -28,12 +28,12 @@ export default function PromptForm(props) {
         <Select
             className={styles.select}
             label="Assistant type"
-            placeholder="General"
+            placeholder="Assistant"
             searchable
             onSearchChange={setType}
             searchValue={type}
             nothingFound="No options"
-            data={['Translate to chinese', 'Translate to english', 'Summarize']}
+            data={['Assistant', 'Translate to chinese', 'Translate to english', 'Summarize']}
         />
         <Textarea
           placeholder="Ask me anything..."
