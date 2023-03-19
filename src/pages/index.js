@@ -7,17 +7,12 @@ import AnswerSection from "../components/AnswerSection";
 import { Container, Title, Text } from "@mantine/core";
 import { useState } from "react";
 
-function formatResponse(response) {
-  // response = response.replace(" ", " ----");
-  return response;
-}
-
 export default function Home() {
   const [processing, setProcessing] = useState(false);
   const [storedValues, setStoredValues] = useState([
   ]);
 
-  async function generateResponse(prompt, setPrompt) {
+  async function generateResponse(prompt, setPrompt, checked, type) {
     setProcessing(true);
 
     const response = await fetch("/api/ask", {
@@ -25,7 +20,7 @@ export default function Home() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ prompt: prompt }),
+      body: JSON.stringify({ prompt: prompt, chat: checked, values: storedValues, type: type }),
     });
 
     const json = await response.json();
