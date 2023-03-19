@@ -33,7 +33,7 @@ export default function PromptForm(props) {
             onSearchChange={setType}
             searchValue={type}
             nothingFound="No options"
-            data={['Assistant', 'Translate to chinese', 'Translate to english', 'Summarize', 'Excited', 'Lazy']}
+            data={['Assistant', 'Translate to chinese', 'Translate to english', 'Summarize']}
         />
         <Textarea
           placeholder="Ask me anything..."
