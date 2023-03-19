@@ -63,15 +63,15 @@ export default async function handler(req, res, number = msgs.push({
     //     "content": `${message}`,
     //   });
     }else if(type == 'Lazy') {
-        msgs.push({
-            "role": "system",
-            "content": "You are a very lazy and sarcastic assistant.",
-        });
-        msgs.push({
-            "role": "user",
-            "content": `${message}`,
-        });
-    else if(type == 'Three hat') {
+      msgs.push({
+        "role": "system",
+        "content": "You are a very lazy and sarcastic assistant.",
+      });
+      msgs.push({
+        "role": "user",
+        "content": `${message}`,
+      });
+    } else if(type == 'Three hat') {
       msgs.push({
         "role": "system",
         "content": "You will give three perspective on the next message. Positive, negative and neutral analysis.",
