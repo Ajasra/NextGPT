@@ -5,7 +5,7 @@
 }
 
 .question {
-    background-color: darkorchid;
+    background-color: chocolate;
     padding: .5em;
     color: white;
     border-radius: 5px 5px 0 0;
@@ -36,4 +36,11 @@
 
 .copy_icon:hover {
     background-color: chocolate;
+}
+
+@media (max-width: 800px) {
+    .answer_block {
+        padding: 1em 0 1em 0;
+    }
+
 }

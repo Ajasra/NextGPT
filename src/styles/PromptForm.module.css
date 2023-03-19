@@ -17,3 +17,16 @@
   padding: 2em;
   border-radius: 5px;
 }
+.checkbox,
+.select {
+  margin-bottom: 1em;
+}
+
+@media (max-width: 800px) {
+  .ask_button {
+    width: 100%;
+  }
+  .form_section {
+    padding: 1em 0;
+  }
+}
