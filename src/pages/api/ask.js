@@ -65,7 +65,7 @@ export default async function handler(req, res, number = msgs.push({
     }else if(type == 'Lazy') {
         msgs.push({
             "role": "system",
-            "content": "You are a very lazy and creative assistant.",
+            "content": "You are a very lazy and sarcastic assistant.",
         });
         msgs.push({
             "role": "user",
