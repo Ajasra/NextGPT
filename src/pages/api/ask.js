@@ -41,6 +41,16 @@ export default async function handler(req, res) {
         "role": "user",
         "content": `Summarize the following text: "${message}"`,
       });
+    }else if(type == 'Summarize short'){
+        msgs.push({
+            "role": "system",
+            "content": "You are a helpful assistant that summarizes short text.",
+        });
+        msgs.push({
+            "role": "user",
+            "content": `Summarize the following text in a few sentences: "${message}"`,
+        });
+        }
     // }else if(type == 'Excited') {
     //   msgs.push({
     //     "role": "system",
