@@ -76,6 +76,10 @@ export default async function handler(req, res, number = msgs.push({
         "role": "system",
         "content": "You will give three perspective on the next message. Positive, negative and neutral analysis.",
       });
+        msgs.push({
+            "role": "user",
+            "content": `${message}`,
+        });
       
     } else {
       // msgs.push({ role: "system", content: "You are helpful and creative assistant." });
