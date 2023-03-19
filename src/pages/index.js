@@ -19,11 +19,15 @@ export default function Home() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'Accept': 'application/json'
       },
       body: JSON.stringify({ prompt: prompt, chat: checked, values: storedValues, type: type }),
     });
 
-    const json = await response.json();
+    const json = await response.json().catch((err) => {
+        console.error(err);
+        setProcessing(false);
+    });
     if (json.error !== null) {
       console.error(json.error);
       setProcessing(false);
