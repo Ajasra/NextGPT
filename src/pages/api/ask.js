@@ -50,7 +50,7 @@ export default async function handler(req, res) {
             "role": "user",
             "content": `Summarize the following text in a few sentences: "${message}"`,
         });
-        }
+        
     // }else if(type == 'Excited') {
     //   msgs.push({
     //     "role": "system",
