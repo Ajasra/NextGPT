@@ -90,7 +90,7 @@ export default async function handler(req, res) {
         content: `${message}`,
       });
     } else {
-      // msgs.push({ role: "system", content: "You are helpful and creative assistant." });
+      msgs.push({ role: "system", content: "You are helpful and creative assistant." });
       if (chat) {
         values.forEach((value) => {
           msgs.push({ role: "user", content: value.question });
