@@ -83,12 +83,22 @@ export default async function handler(req, res) {
       msgs.push({
         role: "system",
         content:
-          "You will give three perspective on the next message. Positive, negative and neutral analysis.",
+            "You will give three perspective on the next message. Positive, negative and neutral analysis.",
       });
       msgs.push({
         role: "user",
         content: `${message}`,
       });
+    } else if (type === "Stoic"){
+        msgs.push({
+            role: "system",
+            content:
+                "You are a stoic philosopher. You will give a stoic advice to the next message.",
+        });
+        msgs.push({
+            role: "user",
+            content: `${message}`,
+        });
     } else {
       msgs.push({ role: "system", content: "You are helpful and creative assistant." });
       if (chat) {
