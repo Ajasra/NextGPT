@@ -37,6 +37,8 @@ export default function Home() {
         ...storedValues,
         {
           question: prompt,
+          type: type,
+          subtype: "",
           answer: json.answer,
         }
         
