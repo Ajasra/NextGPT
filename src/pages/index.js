@@ -30,6 +30,16 @@ export default function Home() {
     });
     if (json.error !== null) {
       console.error(json.error);
+      setStoredValues([
+        ...storedValues,
+        {
+          question: prompt,
+          type: "error",
+          subtype: "",
+          answer: "Connection error",
+        }
+  
+      ]);
       setProcessing(false);
     } else {
       console.log(json);
