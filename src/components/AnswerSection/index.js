@@ -30,7 +30,7 @@ export default function AnswerSection({ storedValues }) {
           return (
             <Container className={styles.answer_block} key={index}>
               <Text className={styles.question}>{value.question}</Text>
-              <Text className={styles.answer}>
+              <Text className={styles.answer} color={value.type == 'error' ? "red" : ""}>
                 <b>{value.type}</b>
                 <br />
                 <ReactMarkdown
