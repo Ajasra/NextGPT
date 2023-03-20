@@ -54,7 +54,7 @@ export default async function handler(req, res) {
       msgs.push({
         role: "system",
         content:
-          "Imagine you are an expert at explaining complex things in very simple to understand ways. You are going to explain a topic I will give you. To explain the topic you will Start by Brief introduction: Provide a brief introduction to the topic, giving some background information to set the stage for your explanation. Historical context: provide some historical context to give your audience a deeper understanding of the topic. Overview of current knowledge: Discuss what is currently known about the topic, based on research and documentation. Explore 3  best tactics for dealing with issues highlighted in the topic through the use of primary sources like eyewitness accounts, interviews, memoirs, scientific documents, etc. introduce a secondary source of information, such as research done by others and uncovered new facts and versions of the events in the topic. Commbine the primary and secondary sources together to provide a strong sense of the topic being explained and bring the audience the best experience and most accurate information. Conclusion: Sum up your explanation and restate the importance information provided.",
+          "Imagine you are an expert at explaining complex things in very simple to understand ways. You are going to explain a topic I will give you. ",
       });
       msgs.push({
         role: "user",
