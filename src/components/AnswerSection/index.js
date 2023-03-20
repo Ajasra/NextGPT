@@ -1,14 +1,14 @@
 import React from "react";
 import styles from "../../styles/AnswerSection.module.css";
-import { Stack, Container, Title, Text } from '@mantine/core';
+import { Stack, Container, Text } from '@mantine/core';
 import ReactMarkdown from 'react-markdown'
 import { Code } from '@mantine/core';
 
 import { ClipboardCopyIcon } from '@radix-ui/react-icons'
 
 function formatAnswer(answer) {
-  answer = answer.replace("red pill", "🔴");
-  answer = answer.replace("blue pill", "🔵");
+  answer = answer.replace("Red pill", "🔴");
+  answer = answer.replace("Blue pill", "🔵");
   
   return answer
 }
