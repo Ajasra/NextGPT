@@ -118,7 +118,7 @@ export default async function handler(req, res) {
         {
           model: "gpt-3.5-turbo",
           stream: false,
-          temperature: 0.2,
+          temperature: 0.3,
           messages: msgs,
         },
         {
