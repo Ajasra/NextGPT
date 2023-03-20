@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
     let msgs = [];
 
-    if (type == "Translate to chinese") {
+    if (type === "Translate to chinese") {
       msgs.push({
         role: "system",
         content:
@@ -22,7 +22,7 @@ export default async function handler(req, res) {
         role: "user",
         content: `Translate the following English text to Chinese: "${message}"`,
       });
-    } else if (type == "Translate to english") {
+    } else if (type === "Translate to english") {
       msgs.push({
         role: "system",
         content:
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
         role: "user",
         content: `Translate the following Chinese text to English: "${message}"`,
       });
-    } else if (type == "Summarize") {
+    } else if (type === "Summarize") {
       msgs.push({
         role: "system",
         content: "You are a helpful assistant that summarizes text.",
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
         role: "user",
         content: `Summarize the following text: "${message}"`,
       });
-    } else if (type == "Summarize short") {
+    } else if (type === "Summarize short") {
       msgs.push({
         role: "system",
         content: "You are a helpful assistant that summarizes short text.",
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
         role: "user",
         content: `Summarize the following text in a one paragraph: "${message}"`,
       });
-    } else if (type == "Explain") {
+    } else if (type === "Explain") {
       msgs.push({
         role: "system",
         content:
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
         role: "user",
         content: `The topic is ${message}`,
       });
-    } else if (type == "Morpheus") {
+    } else if (type === "Morpheus") {
       msgs.push({
         role: "system",
         content:
@@ -70,7 +70,7 @@ export default async function handler(req, res) {
         role: "user",
         content: `${message}`,
       });
-    } else if (type == "Lazy") {
+    } else if (type === "Lazy") {
       msgs.push({
         role: "system",
         content: "You are a very lazy and sarcastic assistant.",
@@ -79,7 +79,7 @@ export default async function handler(req, res) {
         role: "user",
         content: `${message}`,
       });
-    } else if (type == "Three hat") {
+    } else if (type === "Three hat") {
       msgs.push({
         role: "system",
         content:
@@ -101,8 +101,8 @@ export default async function handler(req, res) {
     }
 
     console.log(msgs);
-
-    const response = await axios
+    
+    await axios
       .post(
         API_ENDPOINT,
         {
