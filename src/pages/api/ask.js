@@ -54,7 +54,7 @@ export default async function handler(req, res) {
       msgs.push({
         role: "system",
         content:
-          "Imagine you are an expert at explaining complex things in very simple to understand ways. You are going to explain a topic I will give you. ",
+          "Imagine you are an expert at explaining complex things in very simple to understand ways. You are going to explain a topic I will give you.",
       });
       msgs.push({
         role: "user",
@@ -107,6 +107,8 @@ export default async function handler(req, res) {
         API_ENDPOINT,
         {
           model: "gpt-3.5-turbo",
+          stream: false,
+          temperature: 0.2,
           messages: msgs,
         },
         {
