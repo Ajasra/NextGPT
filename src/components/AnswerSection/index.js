@@ -14,6 +14,14 @@ import { ClipboardCopyIcon } from "@radix-ui/react-icons";
 function formatAnswer(answer) {
   answer = answer.replace("Red pill", "🔴");
   answer = answer.replace("Blue pill", "🔵");
+  answer = answer.replace("red pill", "🔴");
+  answer = answer.replace("blue pill", "🔵");
+  answer = answer.replace("Positive analysis", "🟢");
+  answer = answer.replace("Negative analysis", "🔴");
+  answer = answer.replace("Neutral analysis", "🟡");
+  answer = answer.replace("positive analysis", "🟢");
+  answer = answer.replace("negative analysis", "🔴");
+  answer = answer.replace("neutral analysis", "🟡");
 
   return answer;
 }
