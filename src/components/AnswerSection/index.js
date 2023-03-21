@@ -16,6 +16,8 @@ function formatAnswer(answer) {
   answer = answer.replace("Blue pill", "🔵");
   answer = answer.replace("red pill", "🔴");
   answer = answer.replace("blue pill", "🔵");
+  answer = answer.replace("black pill", "⚫");
+  answer = answer.replace("Black pill", "⚫");
   answer = answer.replace("Positive analysis", "🟢");
   answer = answer.replace("Negative analysis", "🔴");
   answer = answer.replace("Neutral analysis", "🟡");
@@ -38,7 +40,10 @@ export default function AnswerSection({ storedValues }) {
           return (
             <Container className={styles.answer_block} key={index}>
               <Text className={styles.question}>{value.question}</Text>
-              <Text className={styles.answer} color={value.type == 'error' ? "red" : ""}>
+              <Text
+                className={styles.answer}
+                color={value.type == "error" ? "red" : ""}
+              >
                 <b>{value.type}</b>
                 <br />
                 <ReactMarkdown

@@ -83,7 +83,7 @@ export default function PromptForm(props) {
     } else {
       setError("");
       if (VERSION == 2) {
-        requestAssistant(prompt, type, checked, setPrompt, selected);
+        requestAssistant(prompt, subtype, checked, setPrompt, selected);
       } else {
         console.log("Old version");
         generateResponse(prompt, setPrompt, checked, type);

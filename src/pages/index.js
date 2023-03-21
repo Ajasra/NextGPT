@@ -18,7 +18,7 @@ export default function Home() {
   const [storedValues, setStoredValues] = useState([]);
 
   async function requestAssistant(prompt, type, chat, setPrompt, selected) {
-    const messages = generate_prompt(prompt, type, chat, storedValues, selected, prompts);
+    const messages = generate_prompt(prompt, chat, storedValues, selected, prompts);
     setProcessing(true);
 
     let api_url = "/api/chat_api";
