@@ -109,8 +109,6 @@ export default async function handler(req, res) {
       }
       msgs.push({ role: "user", content: message });
     }
-
-    console.log(msgs);
     
     await axios
       .post(
@@ -131,7 +129,7 @@ export default async function handler(req, res) {
       )
       .then((response) => {
         const answer = response.data.choices[0].message.content;
-        console.log(answer);
+        // console.log(answer);
         res.status(200).json({ error: null, answer: answer });
       })
       .catch((error) => {
