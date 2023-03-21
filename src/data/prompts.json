@@ -8,6 +8,7 @@
         "subtype": "Assistant",
         "chat": true,
         "system": "You are helpful and creative assistant.",
+        "prompt": "userprompt",
         "help": "Ask me anything"
       }
     ]
