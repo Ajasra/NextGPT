@@ -11,16 +11,16 @@ import generate_prompt from "../utils/generate_prompt";
 const LOCAL_KEY = process.env.NEXT_PUBLIC_LOCAL_KEY;
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
+import prompts from "../data/prompts.json";
+
 export default function Home() {
   const [processing, setProcessing] = useState(false);
   const [storedValues, setStoredValues] = useState([]);
 
-  async function requestAssistant(prompt, type, chat, setPrompt) {
-    const messages = generate_prompt(prompt, type, chat, storedValues);
+  async function requestAssistant(prompt, type, chat, setPrompt, selected) {
+    const messages = generate_prompt(prompt, type, chat, storedValues, selected, prompts);
     setProcessing(true);
 
-    console.log(messages);
-    
     let api_url = "/api/chat_api";
     if(BACKEND_URL !== undefined) {
       api_url = `${BACKEND_URL}/chat_api`;
@@ -69,8 +69,15 @@ export default function Home() {
 
   async function generateResponse(prompt, setPrompt, checked, type) {
     setProcessing(true);
-
-    const response = await fetch("/api/ask", {
+  
+    let api_url = "/api/ask";
+    if(BACKEND_URL !== undefined) {
+      api_url = `${BACKEND_URL}/ask`;
+    }
+  
+      console.log(api_url)
+  
+    const response = await fetch(api_url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -144,6 +151,7 @@ export default function Home() {
             processing={processing}
             generateResponse={generateResponse}
             requestAssistant={requestAssistant}
+            prompts={prompts}
           />
         </Container>
       </Container>

@@ -6,27 +6,84 @@ import {
   Checkbox,
   Select,
 } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../styles/PromptForm.module.css";
 import process from "next/dist/build/webpack/loaders/resolve-url-loader/lib/postcss";
 
 const VERSION = process.env.NEXT_PUBLIC_VERSION;
 
 export default function PromptForm(props) {
-  const { processing, generateResponse, requestAssistant } = props;
+  
+  const { processing, generateResponse, requestAssistant, prompts } = props;
 
   const [prompt, setPrompt] = useState("");
   const [error, setError] = useState("");
   const [checked, setChecked] = useState(false);
-  const [type, setType] = useState("Assistant");
+  const [type, setType] = useState("");
+  const [subtype, setSubtype] = useState("");
+
+  const [selected, setSelected] = useState({ type: 0, subtype: 0 });
+
+  const [typeList, setTypeList] = useState([]);
+  const [subList, setSubList] = useState([]);
+  const [chat, setChat] = useState(false);
+  const [helpText, setHelpText] = useState("");
+
+  useEffect(() => {
+    let types = [];
+    for (let i = 0; i < prompts.length; i++) {
+      types.push({
+        value: prompts[i].id,
+        label: prompts[i].type,
+      });
+    }
+    if (types.length > 0) {
+      setTypeList(types);
+      setType("");
+      setSubtype("");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (type !== undefined) {
+      let subtypes = [];
+      for (let i = 0; i < prompts.length; i++) {
+        if (prompts[i].type === type) {
+          for (let j = 0; j < prompts[i].sub.length; j++) {
+            subtypes.push({
+              value: prompts[i].sub[j].id,
+              label: prompts[i].sub[j].subtype,
+            });
+          }
+          setSubList(subtypes);
+          setSelected({ type: i, subtype: 0 });
+          setSubtype("");
+          break;
+        }
+      }
+    }
+  }, [type]);
+
+  useEffect(() => {
+    if (subtype !== undefined) {
+      for (let j = 0; j < prompts[selected.type].sub.length; j++) {
+        if (prompts[selected.type].sub[j].subtype == subtype) {
+          setChat(prompts[selected.type].sub[j].chat);
+          setHelpText(prompts[selected.type].sub[j].help);
+          setSelected({ ...selected, subtype: j });
+          break;
+        }
+      }
+    }
+  }, [subtype]);
 
   function sendRequest() {
     if (prompt === "") {
       setError("Can't be empty");
     } else {
       setError("");
-      if (VERSION === 2) {
-        requestAssistant(prompt, type, checked, setPrompt);
+      if (VERSION == 2) {
+        requestAssistant(prompt, type, checked, setPrompt, selected);
       } else {
         console.log("Old version");
         generateResponse(prompt, setPrompt, checked, type);
@@ -37,12 +94,6 @@ export default function PromptForm(props) {
   return (
     <Container className={styles.form_section} shadows="md">
       <Container>
-        <Checkbox
-          className={styles.checkbox}
-          checked={checked}
-          onChange={(event) => setChecked(event.currentTarget.checked)}
-          label="Follow conversation"
-        />
         <Select
           className={styles.select}
           label="Assistant type"
@@ -51,22 +102,30 @@ export default function PromptForm(props) {
           onSearchChange={setType}
           searchValue={type}
           nothingFound="No options"
-          data={[
-            "Assistant",
-            "Translate to chinese",
-            "Translate to english",
-            "Summarize",
-            "Summarize short",
-            "Explain",
-            "Lazy",
-            "Three hat",
-            "Morpheus",
-            "Stoic",
-          ]}
+          data={typeList}
           defaultValue={type}
         />
+        <Select
+          className={styles.select}
+          label="Assistant type"
+          placeholder=""
+          searchable
+          onSearchChange={setSubtype}
+          searchValue={subtype}
+          nothingFound="No options"
+          data={subList}
+          defaultValue={subtype}
+        />
+        {chat && (
+          <Checkbox
+            className={styles.checkbox}
+            checked={checked}
+            onChange={(event) => setChecked(event.currentTarget.checked)}
+            label="Follow conversation"
+          />
+        )}
         <Textarea
-          placeholder="Ask me anything..."
+          placeholder={helpText}
           withAsterisk
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}

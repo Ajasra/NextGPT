@@ -7,12 +7,10 @@ const LOCAL_KEY = process.env.NEXT_PUBLIC_LOCAL_KEY;
 export default async function handler(req, res) {
   if (req.method === "POST") {
     
-    console.log(req.body);
     let messages = req.body.messages;
     let key = req.body.key;
     
     console.log(messages);
-    console.log(key);
 
     if (key !== LOCAL_KEY) {
       res.status(404).json({ error: "Access denied" });
