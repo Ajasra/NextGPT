@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     let messages = req.body.messages;
     let key = req.body.key;
     
-    console.log(messages);
+    // console.log(messages);
 
     if (key !== LOCAL_KEY) {
       res.status(404).json({ error: "Access denied" });
