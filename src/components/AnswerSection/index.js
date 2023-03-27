@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../styles/AnswerSection.module.css";
 import {
   Stack,
@@ -9,7 +9,10 @@ import {
 import ReactMarkdown from "react-markdown";
 import { Code } from "@mantine/core";
 
-import { ClipboardCopyIcon } from "@radix-ui/react-icons";
+import { ClipboardCopyIcon, PlayIcon } from "@radix-ui/react-icons";
+import { Howl } from "howler";
+
+const LOCAL_KEY = process.env.NEXT_PUBLIC_LOCAL_KEY;
 
 function formatAnswer(answer) {
   answer = answer.replace("Red pill", "🔴");
@@ -32,6 +35,52 @@ export default function AnswerSection({ storedValues }) {
   const copyText = (text) => {
     navigator.clipboard.writeText(text);
   };
+
+  const [speechFile, setSpeechFile] = useState(null);
+  const [processing, setProcessing] = useState(false);
+
+  useEffect(()=>{
+    async function playSound(){
+      let sound = new Howl({
+        src: [speechFile], html5: true
+      });
+      // wait for the sound to load
+      await sound.load();
+      sound.play();
+      setSpeechFile(null);
+      setProcessing(false);
+    }
+    if(speechFile != null){
+      playSound();
+    }
+  },[speechFile])
+
+
+
+  async function generateSpeech(text){
+
+    setProcessing(true);
+
+    let api_url = "/api/elevenlabs";
+    const response = await fetch(api_url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ messages: text, key: LOCAL_KEY }),
+    });
+
+    const json = await response.json().catch((err) => {
+      console.error(err);
+      setProcessing(false);
+    });
+
+    if (json.error === null) {
+      const id = json.response;
+      setSpeechFile(`/resp/response_${id}.mp3`);
+    }
+  }
 
   return (
     <Stack>
@@ -71,6 +120,13 @@ export default function AnswerSection({ storedValues }) {
                 onClick={() => copyText(value.answer)}
               >
                 <ClipboardCopyIcon />
+                <i className="fa-solid fa-copy"></i>
+              </div>
+              <div
+                className={styles.play_icon}
+                onClick={() => generateSpeech(value.answer)}
+              >
+                <PlayIcon />
                 <i className="fa-solid fa-copy"></i>
               </div>
             </Container>

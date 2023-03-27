@@ -9,12 +9,18 @@ import {
 import { useEffect, useState } from "react";
 import styles from "../../styles/PromptForm.module.css";
 import process from "next/dist/build/webpack/loaders/resolve-url-loader/lib/postcss";
+import { shallowEqual } from "@mantine/hooks";
 
 const VERSION = process.env.NEXT_PUBLIC_VERSION;
 
 export default function PromptForm(props) {
-  
-  const { processing, generateResponse, requestAssistant, prompts } = props;
+  const {
+    processing,
+    generateResponse,
+    generateSpeech,
+    requestAssistant,
+    prompts,
+  } = props;
 
   const [prompt, setPrompt] = useState("");
   const [error, setError] = useState("");

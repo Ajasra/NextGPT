@@ -18,7 +18,7 @@
 }
 
 
-.copy_icon {
+.copy_icon, .play_icon {
     position: absolute;
     background-color: #000000;
     width: 50px;
@@ -32,6 +32,9 @@
     font-size: 1.2rem;
     cursor: pointer;
     transition: all 0.5s ease-in-out;
+}
+.play_icon {
+    right: 60px;
 }
 
 .copy_icon:hover {

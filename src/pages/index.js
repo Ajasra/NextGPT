@@ -5,13 +5,16 @@ import PromptForm from "../components/PromptForm";
 import AnswerSection from "../components/AnswerSection";
 
 import { Container, Title, Text } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import generate_prompt from "../utils/generate_prompt";
+
+import {Howl, Howler} from 'howler';
 
 const LOCAL_KEY = process.env.NEXT_PUBLIC_LOCAL_KEY;
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 import prompts from "../data/prompts.json";
+
 
 export default function Home() {
   const [processing, setProcessing] = useState(false);
