@@ -147,8 +147,8 @@ export default function PromptForm(props) {
           <Button
             radius="md"
             size="md"
-            // disabled={processing}
-              disabled={true}
+            disabled={processing}
+            //   disabled={true}
             onClick={genImage}
             className={styles.ask_button}
           >
