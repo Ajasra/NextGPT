@@ -9,7 +9,7 @@ import {
 import ReactMarkdown from "react-markdown";
 import { Code } from "@mantine/core";
 
-import {ClipboardCopyIcon, PlayIcon, ReloadIcon} from "@radix-ui/react-icons";
+import { ClipboardCopyIcon, PlayIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { Howl } from "howler";
 
 const LOCAL_KEY = process.env.NEXT_PUBLIC_LOCAL_KEY;
@@ -32,18 +32,35 @@ function formatAnswer(answer) {
 }
 
 export default function AnswerSection({ storedValues, regenerateResponse }) {
-  
-    function copyText(text) {
-      navigator.clipboard.writeText(text);
-    }
+  function copyText(text) {
+    navigator.clipboard.writeText(text);
+  }
 
   const [speechFile, setSpeechFile] = useState(null);
+  const [speechData, setSpeechData] = useState(null);
   const [processing, setProcessing] = useState(false);
 
-  useEffect(()=>{
-    async function playSound(){
+  useEffect(() => {
+    if (speechData == null) return;
+    const context = new AudioContext();
+    const buffer = new ArrayBuffer(speechData.length);
+    const view = new Uint8Array(buffer);
+    for (let i = 0; i < speechData.length; i++) {
+      view[i] = speechData.charCodeAt(i);
+    }
+    context.decodeAudioData(buffer, (decodedData) => {
+      const source = context.createBufferSource();
+      source.buffer = decodedData;
+      source.connect(context.destination);
+      source.start();
+    });
+  }, [speechData]);
+
+  useEffect(() => {
+    async function playSound() {
       let sound = new Howl({
-        src: [speechFile], html5: true
+        src: [speechFile],
+        html5: true,
       });
       // wait for the sound to load
       await sound.load();
@@ -51,15 +68,38 @@ export default function AnswerSection({ storedValues, regenerateResponse }) {
       setSpeechFile(null);
       setProcessing(false);
     }
-    if(speechFile != null){
+    if (speechFile != null) {
       playSound();
     }
-  },[speechFile])
+  }, [speechFile]);
 
+  async function VoiceRSS(text) {
+    setProcessing(true);
+    let api_url = "/api/VoiceRSS";
+    const response = await fetch(api_url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ messages: text, key: LOCAL_KEY }),
+    });
 
+    const json = await response.json().catch((err) => {
+      console.error(err);
+      setProcessing(false);
+    });
 
-  async function generateSpeech(text){
+    if (json.error === null) {
+      const data = json.answer;
+      console.log(data);
+      //delay for a second
+      await new Promise((r) => setTimeout(r, 1000));
+      setSpeechData(data);
+    }
+  }
 
+  async function generateSpeech(text) {
     setProcessing(true);
 
     let api_url = "/api/elevenlabs";
@@ -119,8 +159,8 @@ export default function AnswerSection({ storedValues, regenerateResponse }) {
               <div
                 className={styles.copy_icon}
                 onClick={
-                 // copy the text to clipboard
-                    () => copyText(value.answer)
+                  // copy the text to clipboard
+                  () => copyText(value.answer)
                 }
               >
                 <ClipboardCopyIcon />
@@ -128,14 +168,14 @@ export default function AnswerSection({ storedValues, regenerateResponse }) {
               </div>
               <div
                 className={styles.play_icon}
-                onClick={() => generateSpeech(value.answer)}
+                onClick={() => VoiceRSS(value.answer)}
               >
                 <PlayIcon />
                 <i className="fa-solid fa-copy"></i>
               </div>
               <div
-                  className={styles.reload_icon}
-                  onClick={() => regenerateResponse(index)}
+                className={styles.reload_icon}
+                onClick={() => regenerateResponse(index)}
               >
                 <ReloadIcon />
                 <i className="fa-solid fa-copy"></i>
