@@ -16,7 +16,7 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 import prompts from "../data/prompts.json";
 import LoginForm from "../components/Login";
 
-const psw = "Sok@ris2021";
+const psw = process.env.NEXT_PUBLIC_SOKARIS_PSW;
 
 export default function Home() {
   const [processing, setProcessing] = useState(false);
