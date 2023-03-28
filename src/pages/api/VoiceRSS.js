@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 			let config = {
 				method: 'post',
 				maxBodyLength: Infinity,
-				url: `https://api.voicerss.org/?key=${apiKey}&c=MP3&hl=en-us&src=${message}`,
+				url: `https://api.voicerss.org/?key=${apiKey}&hl=en-us&src=${message}`,
 				headers: { }
 			};
 			
