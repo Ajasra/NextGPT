@@ -9,18 +9,11 @@ import {
 import { useEffect, useState } from "react";
 import styles from "../../styles/PromptForm.module.css";
 import process from "next/dist/build/webpack/loaders/resolve-url-loader/lib/postcss";
-import { shallowEqual } from "@mantine/hooks";
 
 const VERSION = process.env.NEXT_PUBLIC_VERSION;
 
 export default function PromptForm(props) {
-  const {
-    processing,
-    generateResponse,
-    generateSpeech,
-    requestAssistant,
-    prompts,
-  } = props;
+  const { processing, requestAssistant, requestImage, prompts } = props;
 
   const [prompt, setPrompt] = useState("");
   const [error, setError] = useState("");
@@ -88,12 +81,16 @@ export default function PromptForm(props) {
       setError("Can't be empty");
     } else {
       setError("");
-      if (VERSION == 2) {
-        requestAssistant(prompt, subtype, checked, setPrompt, selected);
-      } else {
-        console.log("Old version");
-        generateResponse(prompt, setPrompt, checked, type);
-      }
+      requestAssistant(prompt, subtype, checked, setPrompt, selected);
+    }
+  }
+
+  function genImage() {
+    if (prompt === "") {
+      setError("Can't be empty");
+    } else {
+      setError("");
+      requestImage(prompt, setPrompt, selected);
     }
   }
 
@@ -146,6 +143,16 @@ export default function PromptForm(props) {
             className={styles.ask_button}
           >
             {processing ? "Processing..." : "Ask"}
+          </Button>
+          <Button
+            radius="md"
+            size="md"
+            // disabled={processing}
+              disabled={true}
+            onClick={genImage}
+            className={styles.ask_button}
+          >
+            {processing ? "Processing..." : "Image"}
           </Button>
         </Center>
       </Container>

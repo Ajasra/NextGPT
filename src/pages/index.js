@@ -8,24 +8,34 @@ import { Container, Title, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import generate_prompt from "../utils/generate_prompt";
 
-import {Howl, Howler} from 'howler';
+import { Howl, Howler } from "howler";
 
 const LOCAL_KEY = process.env.NEXT_PUBLIC_LOCAL_KEY;
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 import prompts from "../data/prompts.json";
+import LoginForm from "../components/Login";
 
+const psw = "Sok@ris2021";
 
 export default function Home() {
   const [processing, setProcessing] = useState(false);
   const [storedValues, setStoredValues] = useState([]);
 
+  const [locked, setLocked] = useState(true);
+
   async function requestAssistant(prompt, type, chat, setPrompt, selected) {
-    const messages = generate_prompt(prompt, chat, storedValues, selected, prompts);
+    const messages = generate_prompt(
+      prompt,
+      chat,
+      storedValues,
+      selected,
+      prompts
+    );
     setProcessing(true);
 
     let api_url = "/api/chat_api";
-    if(BACKEND_URL !== undefined) {
+    if (BACKEND_URL !== undefined) {
       api_url = `${BACKEND_URL}/chat_api`;
     }
 
@@ -51,6 +61,7 @@ export default function Home() {
           type: "error",
           subtype: "",
           answer: "Connection error",
+          selected: selected,
         },
       ]);
       setProcessing(false);
@@ -63,6 +74,7 @@ export default function Home() {
           type: type,
           subtype: "",
           answer: answer,
+          selected: selected,
         },
       ]);
       setPrompt("");
@@ -70,31 +82,33 @@ export default function Home() {
     }
   }
 
-  async function generateResponse(prompt, setPrompt, checked, type) {
+  async function requestImage(prompt, setPrompt, selected) {
     setProcessing(true);
-  
-    let api_url = "/api/ask";
-    if(BACKEND_URL !== undefined) {
-      api_url = `${BACKEND_URL}/ask`;
+
+    let api_url = "/api/image_api";
+    if (BACKEND_URL !== undefined) {
+      api_url = `${BACKEND_URL}/image_api`;
     }
-  
-      console.log(api_url)
-  
+
     const response = await fetch(api_url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        'Accept': 'application/json'
+        Accept: "application/json",
       },
-      body: JSON.stringify({ prompt: prompt, chat: checked, values: storedValues, type: type }),
+      body: JSON.stringify({
+        messages: prompt,
+        size: "256x256",
+        key: LOCAL_KEY,
+      }),
     });
 
     const json = await response.json().catch((err) => {
-        console.error(err);
-        setProcessing(false);
+      console.error(err);
+      setProcessing(false);
     });
+
     if (json.error !== null) {
-      console.error(json.error);
       setStoredValues([
         ...storedValues,
         {
@@ -102,24 +116,52 @@ export default function Home() {
           type: "error",
           subtype: "",
           answer: "Connection error",
-        }
-
+          selected: selected,
+        },
       ]);
       setProcessing(false);
     } else {
-      console.log(json);
+      const answer = json.response.data;
+      console.log(answer);
+
+      let images = "";
+      for (let i = 0; i < answer.length; i++) {
+        // add in markdown format
+        images += `![image](${answer[i].url} "${prompt}")`;
+      }
+
+      console.log(images);
+
       setStoredValues([
         ...storedValues,
         {
           question: prompt,
-          type: type,
+          type: "image",
           subtype: "",
-          answer: json.answer,
-        }
-
+          answer: images,
+          selected: selected,
+        },
       ]);
       setPrompt("");
       setProcessing(false);
+    }
+  }
+
+  function regenerateResponse(index) {
+    const response = storedValues[index];
+    const prompt = response.question;
+    const type = response.type === "error" ? "" : response.type;
+    const chat = storedValues.slice(0, index);
+    const selected = response.selected;
+    function setPrompt() {}
+    requestAssistant(prompt, type, chat, setPrompt, selected).then((r) => {
+      // console.log(r);
+    });
+  }
+  
+  function unlock(password) {
+    if (password === psw) {
+      setLocked(false);
     }
   }
 
@@ -134,29 +176,34 @@ export default function Home() {
       <Container className={styles.main}>
         <Container className={styles.header}>
           <Title color="orange" className={styles.title}>
-            Sokaris ChatGPT 🤖
+            🤖
           </Title>
-          {storedValues.length < 1 && (
-            <Text>
-              I am an automated question and answer system, designed to assist
-              you in finding relevant information. You are welcome to ask me any
-              queries you may have, and I will do my utmost to offer you a
-              reliable response. Kindly keep in mind that I am a machine and
-              operate solely based on programmed algorithms.
-            </Text>
-          )}
+          <Text>Hello, Ask me anything or select a chatbot from the menu.</Text>
+          <Text color="red">
+            Please do not overuse image generator as price per image is high.
+            ($0.016 / image)
+          </Text>
         </Container>
-        <Container className={styles.chat_main}>
-          {storedValues.length > 0 && (
-            <AnswerSection storedValues={storedValues} />
+        {!locked ? (
+          <Container className={styles.chat_main}>
+            {storedValues.length > 0 && (
+              <AnswerSection
+                storedValues={storedValues}
+                regenerateResponse={regenerateResponse}
+              />
+            )}
+            <PromptForm
+              processing={processing}
+              requestAssistant={requestAssistant}
+              requestImage={requestImage}
+              prompts={prompts}
+            />
+          </Container>
+        ) : (
+          <Container>
+            <LoginForm unlock={unlock} />
+          </Container>
           )}
-          <PromptForm
-            processing={processing}
-            generateResponse={generateResponse}
-            requestAssistant={requestAssistant}
-            prompts={prompts}
-          />
-        </Container>
       </Container>
     </>
   );
