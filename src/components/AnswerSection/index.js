@@ -9,7 +9,7 @@ import {
 import ReactMarkdown from "react-markdown";
 import { Code } from "@mantine/core";
 
-import { ClipboardCopyIcon, PlayIcon } from "@radix-ui/react-icons";
+import {ClipboardCopyIcon, PlayIcon, ReloadIcon} from "@radix-ui/react-icons";
 import { Howl } from "howler";
 
 const LOCAL_KEY = process.env.NEXT_PUBLIC_LOCAL_KEY;
@@ -31,10 +31,11 @@ function formatAnswer(answer) {
   return answer;
 }
 
-export default function AnswerSection({ storedValues }) {
-  const copyText = (text) => {
-    navigator.clipboard.writeText(text);
-  };
+export default function AnswerSection({ storedValues, regenerateResponse }) {
+  
+    function copyText(text) {
+      navigator.clipboard.writeText(text);
+    }
 
   const [speechFile, setSpeechFile] = useState(null);
   const [processing, setProcessing] = useState(false);
@@ -117,7 +118,10 @@ export default function AnswerSection({ storedValues }) {
               </Text>
               <div
                 className={styles.copy_icon}
-                onClick={() => copyText(value.answer)}
+                onClick={
+                 // copy the text to clipboard
+                    () => copyText(value.answer)
+                }
               >
                 <ClipboardCopyIcon />
                 <i className="fa-solid fa-copy"></i>
@@ -127,6 +131,13 @@ export default function AnswerSection({ storedValues }) {
                 onClick={() => generateSpeech(value.answer)}
               >
                 <PlayIcon />
+                <i className="fa-solid fa-copy"></i>
+              </div>
+              <div
+                  className={styles.reload_icon}
+                  onClick={() => regenerateResponse(index)}
+              >
+                <ReloadIcon />
                 <i className="fa-solid fa-copy"></i>
               </div>
             </Container>

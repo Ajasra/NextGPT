@@ -18,7 +18,7 @@
 }
 
 
-.copy_icon, .play_icon {
+.copy_icon, .play_icon, .reload_icon {
     position: absolute;
     background-color: #000000;
     width: 50px;
@@ -35,6 +35,9 @@
 }
 .play_icon {
     right: 60px;
+}
+.reload_icon {
+    right: 120px;
 }
 
 .copy_icon:hover {
