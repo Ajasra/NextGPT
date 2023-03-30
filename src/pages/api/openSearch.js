@@ -23,6 +23,7 @@ export default async function handler(req, res) {
     const model = new OpenAI({
       temperature: 0.3,
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+      modelName: "gpt-3.5-turbo",
     });
     const tools = [
       new SerpAPI((key = process.env.NEXT_PUBLIC_SERPAPI_KEY)),
