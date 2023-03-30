@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     const response = await openai.createImage({
       prompt: messages,
       n: 1,
-      size: "256x256",
+      size: "512x512",
     }).then((response) => {
       const answer = response.data;
       res.status(200).json({ error: null, response: answer });
