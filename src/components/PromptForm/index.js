@@ -144,16 +144,16 @@ export default function PromptForm(props) {
           >
             {processing ? "Processing..." : "Ask"}
           </Button>
-          <Button
-            radius="md"
-            size="md"
-            disabled={processing}
-            //   disabled={true}
-            onClick={genImage}
-            className={styles.ask_button}
-          >
-            {processing ? "Processing..." : "Image"}
-          </Button>
+          {/*<Button*/}
+          {/*  radius="md"*/}
+          {/*  size="md"*/}
+          {/*  disabled={processing}*/}
+          {/*  //   disabled={true}*/}
+          {/*  onClick={genImage}*/}
+          {/*  className={styles.ask_button}*/}
+          {/*>*/}
+          {/*  {processing ? "Processing..." : "Image"}*/}
+          {/*</Button>*/}
         </Center>
       </Container>
     </Container>
